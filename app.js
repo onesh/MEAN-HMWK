@@ -53,18 +53,9 @@ app.use(function(err, req, res, next) {
 
 app.get('/data',function (req, res) {
   if (req) {
-      console.log('req==>>', req.query);
-      var promise = mongoConnector.find(req.query.email);
-      promise.then((data)=> {
-        console.log('Data found==>>', data);
-        res.end(JSON.stringify(data));
-      }).catch((err)=>{
-        console.log(err);
-        res.end('No Dataset Found Matching', req.query.email);
-      })
+      console.log('requested recort with street name ==>>', req.query);
+      var data = mongoConnector.find(req.query.email, res);
 }
-
-
 });
 
 app.listen('8080', function(){

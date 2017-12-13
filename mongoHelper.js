@@ -33,9 +33,12 @@ dbHelper.prototype.insertData = function (data, trigger) {
     instance.db.collection('streetData').insertOne( data[i] );
 };
 
-dbHelper.prototype.find = function (query) {
-  return  instance.db.collection('streetData').findOne({"OnStreet": query.toString()});
-
+dbHelper.prototype.find = function (query, res) {
+  instance.db.collection('streetData').find({"OnStreet": query.toString()}).limit(5).toArray(function (err, docs) {
+    if (err) console.log(err);
+    console.log(docs);
+    res.end(JSON.stringify(docs));
+});
 };
 
 module.exports = instance;

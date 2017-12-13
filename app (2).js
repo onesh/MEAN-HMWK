@@ -1,5 +1,10 @@
 var app = angular.module('angularjsnodejstutorial',[]);
 app.controller('mycontroller', function($scope, $http) {
+  $scope.searchMode = false;
+  $scope.nodata = false;
+  $scope.initSearch = function () {
+      $scope.searchMode = !$scope.searchMode;
+  };
         $scope.showData = false;
         $scope.data = {};
         $scope.Submit = function() {
@@ -9,8 +14,16 @@ app.controller('mycontroller', function($scope, $http) {
               params: {email: $scope.email}
            });
         request.success(function(data) {
-            $scope.data = data;
+          if (data.length) {
+            $scope.dataset = data;
             $scope.showData = true;
+          } else {
+            $scope.nodata = true;
+            $scope.showData = false;
+            setTimeout(function () {
+              $scope.nodata = false;
+            }, 2000)
+          }
         });
         request.error(function(data){
             console.log('err');
